@@ -12,34 +12,34 @@ const Navbar = () => {
   };
 
   return (
-    <div className="fixed top-0 left-0 right-0 z-10 flex flex-shrink-0 h-16 bg-white border-b border-gray-200 md:left-64 pl-4 pr-4 sm:pr-6 lg:pr-8 shadow-sm">
+    <div className="fixed top-0 left-0 right-0 z-20 flex flex-shrink-0 h-16 glass-panel border-b border-white/10 rounded-none md:left-64 pl-4 pr-4 sm:pr-6 lg:pr-8">
       <div className="flex-1 flex justify-between px-4 sm:px-0">
         <div className="flex-1 flex items-center">
-          <h1 className="text-2xl font-semibold text-gray-900 md:hidden">
+          <h1 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-indigo-400 md:hidden drop-shadow-sm">
             AttendancePro
           </h1>
         </div>
         <div className="ml-4 flex items-center mb:ml-6 space-x-4">
-          <button className="p-1 bg-white rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+          <button className="p-2 bg-black/20 border border-white/10 rounded-full text-gray-300 hover:text-white hover:bg-white/10 transition-all focus:outline-none focus:ring-1 focus:ring-white/30 backdrop-blur-sm shadow-sm group">
             <span className="sr-only">View notifications</span>
-            <Bell className="h-6 w-6" aria-hidden="true" />
+            <Bell className="h-5 w-5 group-hover:animate-[wave_1s_ease-in-out_infinite]" aria-hidden="true" />
           </button>
 
-          <div className="flex items-center cursor-pointer">
-            <div className="hidden sm:flex flex-col items-end mr-3">
-              <span className="text-sm font-medium text-gray-900">{user?.name || 'Teacher'}</span>
-              <span className="text-xs text-gray-500">{user?.email || 'teacher@school.com'}</span>
+          <div className="flex items-center cursor-pointer glass-panel py-1 px-2 rounded-full border border-white/10 hover:bg-white/5 transition-colors">
+            <div className="hidden sm:flex flex-col items-end mr-3 pl-2">
+              <span className="text-sm font-medium text-white">{user?.name || 'Teacher'}</span>
+              <span className="text-xs text-gray-400">{user?.email || 'teacher@school.com'}</span>
             </div>
-            <div className="h-9 w-9 rounded-full bg-blue-100 flex items-center justify-center border border-blue-200">
-              <User className="h-5 w-5 text-blue-600" />
+            <div className="h-9 w-9 rounded-full bg-gradient-to-br from-blue-500/20 to-indigo-500/20 flex items-center justify-center border border-white/20 shadow-inner">
+              <User className="h-5 w-5 text-blue-300 drop-shadow-md" />
             </div>
           </div>
           
           <button
             onClick={handleLogout}
-            className="flex items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded-md text-red-600 hover:bg-red-50 hover:text-red-700 transition-colors"
+            className="flex items-center px-4 py-2 border border-white/10 text-sm font-medium rounded-lg text-red-400 bg-black/20 hover:bg-red-500/20 hover:text-red-300 hover:border-red-500/30 transition-all shadow-sm backdrop-blur-sm"
           >
-            <LogOut className="h-4 w-4 mr-1" />
+            <LogOut className="h-4 w-4 sm:mr-2" />
             <span className="hidden sm:inline">Logout</span>
           </button>
         </div>

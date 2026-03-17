@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import api from '../services/api';
-import { Calendar, Save } from 'lucide-react';
+import { Calendar, Save, CheckCircle2, XCircle } from 'lucide-react';
 
 const Attendance = () => {
   const [classes, setClasses] = useState([]);
@@ -110,40 +110,46 @@ const Attendance = () => {
   const selectedClassDetails = classes.find(c => c.id.toString() === selectedClass);
 
   return (
-    <div>
+    <div className="relative z-10 animate-fade-in">
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-gray-900">Mark Attendance</h1>
-        <p className="mt-2 text-sm text-gray-700">Select a class and date to take attendance.</p>
+        <h1 className="text-3xl font-bold text-white tracking-tight drop-shadow-md">Mark Attendance</h1>
+        <p className="mt-2 text-sm text-gray-300">Select a class and date to take attendance.</p>
       </div>
 
-      <div className="bg-white p-6 rounded-lg shadow border border-gray-100 mb-8">
+      <div className="glass-panel p-6 rounded-2xl border border-white/10 mb-8 backdrop-blur-xl shadow-lg">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Select Class</label>
-            <select
-              value={selectedClass}
-              onChange={(e) => setSelectedClass(e.target.value)}
-              className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md border"
-            >
-              <option value="">-- Select Class --</option>
-              {classes.map(cls => (
-                <option key={cls.id} value={cls.id}>
-                  {cls.subjectName} (Section {cls.section})
-                </option>
-              ))}
-            </select>
+          <div className="group">
+            <label className="block text-sm font-medium text-gray-300 mb-2 transition-colors group-focus-within:text-white">Select Class</label>
+            <div className="relative">
+              <select
+                value={selectedClass}
+                onChange={(e) => setSelectedClass(e.target.value)}
+                className="glass-input block w-full pl-3 pr-10 py-3 text-base appearance-none cursor-pointer"
+              >
+                <option value="" className="bg-neutral-900 text-white">-- Select Class --</option>
+                {classes.map(cls => (
+                  <option key={cls.id} value={cls.id} className="bg-neutral-900 text-white">
+                    {cls.subjectName} (Section {cls.section})
+                  </option>
+                ))}
+              </select>
+              <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none text-white">
+                <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
+              </div>
+            </div>
           </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Select Date</label>
-             <div className="mt-1 relative rounded-md shadow-sm">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Calendar className="h-5 w-5 text-gray-400" />
+          <div className="group">
+            <label className="block text-sm font-medium text-gray-300 mb-2 transition-colors group-focus-within:text-white">Select Date</label>
+             <div className="relative rounded-md shadow-sm">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none z-10">
+                  <Calendar className="h-5 w-5 text-gray-400 group-focus-within:text-white transition-colors" />
                 </div>
                 <input
                   type="date"
                   value={date}
                   onChange={(e) => setDate(e.target.value)}
-                  className="focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 sm:text-sm border-gray-300 rounded-md py-2 px-3 border"
+                  className="glass-input block w-full pl-10 py-3 relative"
+                  style={{ colorScheme: 'dark' }}
                 />
               </div>
           </div>
@@ -151,57 +157,59 @@ const Attendance = () => {
       </div>
 
       {loading ? (
-        <div className="flex justify-center mt-10"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div></div>
+        <div className="flex justify-center mt-10"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white/20"></div></div>
       ) : selectedClassDetails ? (
-        <div className="bg-white shadow overflow-hidden sm:rounded-md border border-gray-100">
-          <div className="px-4 py-5 border-b border-gray-200 sm:px-6 flex justify-between items-center bg-gray-50">
-            <h3 className="text-lg leading-6 font-medium text-gray-900">
+        <div className="glass-panel overflow-hidden sm:rounded-2xl border border-white/10 shadow-lg">
+          <div className="px-6 py-5 border-b border-white/10 flex justify-between items-center bg-white/5 backdrop-blur-md">
+            <h3 className="text-lg leading-6 font-semibold text-white">
               Students List - Section {selectedClassDetails.section}
             </h3>
-            {message && <span className="text-sm font-medium text-green-600 bg-green-100 px-3 py-1 rounded-full">{message}</span>}
+            {message && <span className="text-sm font-medium text-green-300 bg-green-500/20 border border-green-500/30 px-4 py-1.5 rounded-full animate-fade-in shadow-[0_0_10px_rgba(16,185,129,0.2)]">{message}</span>}
           </div>
           
           {students.length === 0 ? (
-            <div className="p-8 text-center text-gray-500">No students found for this section.</div>
+            <div className="p-10 text-center text-gray-400">No students found for this section.</div>
           ) : (
             <>
-              <ul className="divide-y divide-gray-200">
+              <ul className="divide-y divide-white/5">
                 {students.map((student) => (
-                  <li key={student.id} className="px-4 py-4 sm:px-6 hover:bg-gray-50 flex items-center justify-between">
+                  <li key={student.id} className="px-6 py-4 glass-table-row flex items-center justify-between group">
                     <div>
-                      <p className="text-sm font-medium text-gray-900">{student.name}</p>
-                      <p className="text-sm text-gray-500">Roll No: {student.rollNumber}</p>
+                      <p className="text-base font-medium text-white group-hover:text-blue-200 transition-colors">{student.name}</p>
+                      <p className="text-sm text-gray-400 mt-1">Roll No: {student.rollNumber}</p>
                     </div>
-                    <div className="flex bg-gray-100 p-1 rounded-lg">
+                    <div className="flex bg-black/20 p-1 rounded-xl border border-white/10 backdrop-blur-sm">
                       <button
                         onClick={() => handleStatusChange(student.id, 'PRESENT')}
-                        className={`px-4 py-1.5 text-sm font-medium rounded-md transition-colors ${
+                        className={`px-5 py-2 text-sm font-medium rounded-lg transition-all flex items-center ${
                           attendance[student.id] === 'PRESENT'
-                            ? 'bg-green-500 text-white shadow-sm'
-                            : 'text-gray-700 hover:bg-gray-200'
+                            ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 shadow-[0_0_15px_rgba(16,185,129,0.15)]'
+                            : 'text-gray-400 hover:bg-white/5 hover:text-white border border-transparent'
                         }`}
                       >
+                        {attendance[student.id] === 'PRESENT' && <CheckCircle2 className="w-4 h-4 mr-1.5" />}
                         Present
                       </button>
                       <button
                         onClick={() => handleStatusChange(student.id, 'ABSENT')}
-                        className={`px-4 py-1.5 text-sm font-medium rounded-md transition-colors ${
+                        className={`px-5 py-2 text-sm font-medium rounded-lg transition-all flex items-center ${
                           attendance[student.id] === 'ABSENT'
-                            ? 'bg-red-500 text-white shadow-sm'
-                            : 'text-gray-700 hover:bg-gray-200'
+                            ? 'bg-red-500/20 text-red-400 border border-red-500/30 shadow-[0_0_15px_rgba(239,68,68,0.15)]'
+                            : 'text-gray-400 hover:bg-white/5 hover:text-white border border-transparent'
                         }`}
                       >
+                        {attendance[student.id] === 'ABSENT' && <XCircle className="w-4 h-4 mr-1.5" />}
                         Absent
                       </button>
                     </div>
                   </li>
                 ))}
               </ul>
-              <div className="px-4 py-4 bg-gray-50 border-t border-gray-200 sm:px-6 flex justify-end">
+              <div className="px-6 py-5 bg-black/20 border-t border-white/10 flex justify-end">
                 <button
                   onClick={handleSaveAttendance}
                   disabled={submitting}
-                  className="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                  className="glass-button-primary inline-flex items-center px-6 py-2.5 shadow-lg text-sm font-medium rounded-xl hover:-translate-y-0.5"
                 >
                   <Save className="mr-2 h-4 w-4" />
                   {submitting ? 'Saving...' : 'Save Attendance'}
@@ -211,7 +219,7 @@ const Attendance = () => {
           )}
         </div>
       ) : (
-         <div className="text-center text-gray-500 mt-10">Select a class to mark attendance</div>
+         <div className="glass-panel text-center text-gray-400 mt-10 p-10 rounded-2xl border border-white/5">Select a class to mark attendance</div>
       )}
     </div>
   );

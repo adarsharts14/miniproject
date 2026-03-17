@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import ProtectedRoute from './components/ProtectedRoute';
 import Layout from './components/Layout';
+import FloatingOrbs from './components/FloatingOrbs';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
@@ -12,6 +13,7 @@ import Reports from './pages/Reports';
 function App() {
   return (
     <Router>
+      <FloatingOrbs />
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
