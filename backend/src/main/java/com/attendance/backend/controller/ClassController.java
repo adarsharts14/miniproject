@@ -28,6 +28,11 @@ public class ClassController {
         return ResponseEntity.ok(classService.getClassById(id));
     }
 
+    @GetMapping("/section/{section}")
+    public ResponseEntity<List<ClassDto>> getClassesBySection(@PathVariable String section) {
+        return ResponseEntity.ok(classService.getClassesBySection(section));
+    }
+
     @PostMapping
     public ResponseEntity<ClassDto> createClass(@Valid @RequestBody ClassDto classDto, Authentication authentication) {
         return new ResponseEntity<>(classService.createClass(classDto, authentication.getName()), HttpStatus.CREATED);

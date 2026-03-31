@@ -1,0 +1,37 @@
+services:
+  # Backend Web Service
+  - type: web
+    name: attendance-backend
+    env: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    envVars:
+      - key: SPRING_PROFILES_ACTIVE
+        value: prod
+      - key: SPRING_DATASOURCE_URL
+        # Replace this with your actual Render / external MySQL database URL
+        value: "jdbc:mysql://your-db-host:3306/attendance_db?createDatabaseIfNotExist=true"
+      - key: SPRING_DATASOURCE_USERNAME
+        value: root
+      - key: SPRING_DATASOURCE_PASSWORD
+        value: Adarshy@3005 
+        # Note: Avoid checking raw passwords into source control. You can remove this here and set it as a secret environment variable directly in the Render dashboard instead.
+
+  # Frontend Static Site
+  - type: web
+    name: attendance-frontend
+    env: static
+    buildCommand: npm install && npm run build
+    staticPublishPath: ./dist
+    rootDir: frontend
+    # Static Site rewrite rules allow React Router (SPA) to function properly
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    envVars:
+      - key: VITE_API_URL
+        # Assuming your frontend uses an env variable for API URL. If not, adapt accordingly.
+        # This uses Render's built-in variable to reference the backend's internal or external URL.
+        # Example: fromUrl: https://attendance-backend.onrender.com
+        value: ""

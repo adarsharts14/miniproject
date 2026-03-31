@@ -40,6 +40,13 @@ public class ClassServiceImpl implements ClassService {
     }
 
     @Override
+    public List<ClassDto> getClassesBySection(String section) {
+        return classRepository.findBySection(section).stream()
+                .map(this::mapToDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public ClassDto createClass(ClassDto classDto, String teacherEmail) {
         User teacher = userRepository.findByEmail(teacherEmail)
                 .orElseThrow(() -> new RuntimeException("Teacher not found"));

@@ -27,6 +27,11 @@ public class StudentController {
         return ResponseEntity.ok(studentService.getStudentById(id));
     }
 
+    @GetMapping("/email/{email}")
+    public ResponseEntity<StudentDto> getStudentByEmail(@PathVariable String email) {
+        return ResponseEntity.ok(studentService.getStudentByEmail(email));
+    }
+
     @PostMapping
     public ResponseEntity<StudentDto> createStudent(@Valid @RequestBody StudentDto studentDto) {
         return new ResponseEntity<>(studentService.createStudent(studentDto), HttpStatus.CREATED);

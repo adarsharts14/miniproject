@@ -6,6 +6,7 @@ import com.attendance.backend.dto.RegisterRequest;
 import com.attendance.backend.model.Role;
 import com.attendance.backend.model.User;
 import com.attendance.backend.repository.UserRepository;
+import com.attendance.backend.repository.StudentRepository;
 import com.attendance.backend.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
 public class AuthServiceImpl implements AuthService {
 
     private final UserRepository userRepository;
+    private final StudentRepository studentRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
     private final AuthenticationManager authenticationManager;
@@ -53,6 +55,33 @@ public class AuthServiceImpl implements AuthService {
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(Role.TEACHER)
+                .build();
+
+        User savedUser = userRepository.save(user);
+        String token = jwtTokenProvider.generateTokenFromUsername(savedUser.getEmail());
+
+        return AuthResponse.builder()
+                .token(token)
+                .id(savedUser.getId())
+                .name(savedUser.getName())
+                .email(savedUser.getEmail())
+                .role(savedUser.getRole())
+                .build();
+    }
+    @Override
+    public AuthResponse registerStudent(RegisterRequest request) {
+        if (!studentRepository.existsByEmail(request.getEmail())) {
+            throw new RuntimeException("Email not found in Student records");
+        }
+        if (userRepository.findByEmail(request.getEmail()).isPresent()) {
+            throw new RuntimeException("Email is already in use");
+        }
+
+        User user = User.builder()
+                .name(request.getName())
+                .email(request.getEmail())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .role(Role.STUDENT)
                 .build();
 
         User savedUser = userRepository.save(user);

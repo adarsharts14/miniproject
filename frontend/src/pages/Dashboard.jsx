@@ -3,10 +3,18 @@ import { Users, BookOpen, UserCheck, Calendar } from 'lucide-react';
 import api from '../services/api';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement, Title } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
+import { useAuth } from '../context/AuthContext';
+import StudentDashboard from './student/StudentDashboard';
 
 ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement, Title);
 
 const Dashboard = () => {
+  const { user } = useAuth();
+  
+  if (user?.role === 'STUDENT') {
+    return <StudentDashboard />;
+  }
+
   const [stats, setStats] = useState({
     students: 0,
     classes: 0,

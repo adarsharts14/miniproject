@@ -1,8 +1,12 @@
 import { Outlet } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import Navbar from './Navbar';
+import TeacherChatbot from './TeacherChatbot';
+import { useAuth } from '../context/AuthContext';
 
 const Layout = () => {
+  const { user } = useAuth();
+  
   return (
     <div className="flex h-screen overflow-hidden">
       <Sidebar />
@@ -12,6 +16,9 @@ const Layout = () => {
           <Outlet />
         </main>
       </div>
+      
+      {/* Globally mounted Chatbot, only visible to Teachers */}
+      {user?.role === 'TEACHER' && <TeacherChatbot />}
     </div>
   );
 };

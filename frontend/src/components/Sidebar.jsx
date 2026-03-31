@@ -1,14 +1,25 @@
 import { NavLink } from 'react-router-dom';
 import { Home, Users, BookOpen, CheckSquare, FileText, Settings } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
 const Sidebar = () => {
-  const navigation = [
+  const { user } = useAuth();
+  
+  const teacherNavigation = [
     { name: 'Dashboard', href: '/dashboard', icon: Home },
     { name: 'Classes', href: '/classes', icon: BookOpen },
     { name: 'Students', href: '/students', icon: Users },
     { name: 'Attendance', href: '/attendance', icon: CheckSquare },
     { name: 'Reports', href: '/reports', icon: FileText },
   ];
+
+  const studentNavigation = [
+    { name: 'Dashboard', href: '/dashboard', icon: Home },
+    { name: 'My Schedule', href: '/classes', icon: BookOpen },
+    { name: 'My Attendance', href: '/attendance', icon: CheckSquare },
+  ];
+
+  const navigation = user?.role === 'STUDENT' ? studentNavigation : teacherNavigation;
 
   return (
     <div className="hidden md:flex md:flex-shrink-0 z-20">

@@ -7,10 +7,11 @@ const Register = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [role, setRole] = useState('TEACHER'); // 'TEACHER' or 'STUDENT'
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   
-  const { register } = useAuth();
+  const { register, registerStudent } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -19,7 +20,11 @@ const Register = () => {
     setLoading(true);
     
     try {
-      await register(name, email, password);
+      if (role === 'TEACHER') {
+        await register(name, email, password);
+      } else {
+        await registerStudent(name, email, password);
+      }
       navigate('/dashboard');
     } catch (err) {
       setError(err.response?.data?.error || 'Registration failed. Please try again.');
@@ -40,12 +45,32 @@ const Register = () => {
           Join AttendancePro
         </h2>
         <p className="mt-2 text-center text-sm text-gray-300">
-          Create a teacher account to start managing your classes
+          Create an account to access the system
         </p>
       </div>
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md transition-all duration-500 hover:translate-y-[-4px]">
         <div className="glass-panel py-8 px-4 sm:rounded-2xl sm:px-10">
+          
+          {/* Role Toggle */}
+          <div className="flex bg-black/20 p-1 rounded-xl mb-6 relative">
+             <div className="absolute inset-y-1 left-1 w-[calc(50%-4px)] bg-white/10 rounded-lg shadow-sm transition-transform duration-300 pointer-events-none" style={{ transform: role === 'STUDENT' ? 'translateX(100%)' : 'translateX(0)' }}></div>
+             <button
+               type="button"
+               className={`flex-1 py-2 text-sm font-medium z-10 transition-colors ${role === 'TEACHER' ? 'text-white' : 'text-gray-400 hover:text-gray-200'}`}
+               onClick={() => setRole('TEACHER')}
+             >
+               Teacher
+             </button>
+             <button
+               type="button"
+               className={`flex-1 py-2 text-sm font-medium z-10 transition-colors ${role === 'STUDENT' ? 'text-white' : 'text-gray-400 hover:text-gray-200'}`}
+               onClick={() => setRole('STUDENT')}
+             >
+               Student
+             </button>
+          </div>
+
           <form className="space-y-6" onSubmit={handleSubmit}>
             {error && (
               <div className="bg-red-500/20 border-l-4 border-red-500 p-4 rounded-md backdrop-blur-sm">

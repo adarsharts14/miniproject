@@ -1,15 +1,15 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { LogIn, Mail, Lock } from 'lucide-react';
+import { LogIn, Mail, Lock, User } from 'lucide-react';
 
-const Login = () => {
+const TeacherLogin = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   
-  const { login } = useAuth();
+  const { login, logout } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -18,25 +18,31 @@ const Login = () => {
     setLoading(true);
     
     try {
-      await login(email, password);
+      const user = await login(email, password);
+      if (user.role !== 'TEACHER') {
+        logout(); // force logout if wrong role
+        setError('Access Denied: This portal is for Teachers only.');
+        setLoading(false);
+        return;
+      }
       navigate('/dashboard');
     } catch (err) {
       setError(err.response?.data?.error || 'Failed to login. Please check your credentials.');
     } finally {
-      setLoading(false);
+      if(!error) setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8 relative z-10">
+    <div className="min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8 relative z-10 animate-fade-in">
       <div className="sm:mx-auto sm:w-full sm:max-w-md animate-float-slow">
         <div className="flex justify-center">
-          <div className="rounded-full bg-white/10 p-4 shadow-[0_0_15px_rgba(255,255,255,0.2)] border border-white/20 backdrop-blur-md">
-            <LogIn className="h-8 w-8 text-white" />
+          <div className="rounded-full bg-blue-500/20 p-4 shadow-[0_0_15px_rgba(59,130,246,0.3)] border border-blue-500/30 backdrop-blur-md">
+            <User className="h-8 w-8 text-blue-400" />
           </div>
         </div>
         <h2 className="mt-6 text-center text-3xl font-extrabold text-white tracking-tight">
-          AttendancePro
+          Teacher Login
         </h2>
         <p className="mt-2 text-center text-sm text-gray-300">
           Sign in to manage classes and attendance
@@ -44,7 +50,7 @@ const Login = () => {
       </div>
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md transition-all duration-500 hover:translate-y-[-4px]">
-        <div className="glass-panel py-8 px-4 sm:rounded-2xl sm:px-10">
+        <div className="glass-panel py-8 px-4 sm:rounded-2xl sm:px-10 border-t-4 border-t-blue-500/50">
           <form className="space-y-6" onSubmit={handleSubmit}>
             {error && (
               <div className="bg-red-500/20 border-l-4 border-red-500 p-4 rounded-md backdrop-blur-sm">
@@ -67,7 +73,7 @@ const Login = () => {
               </label>
               <div className="mt-1 relative rounded-md shadow-sm group">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Mail className="h-5 w-5 text-gray-400 group-focus-within:text-white transition-colors" />
+                  <Mail className="h-5 w-5 text-gray-400 group-focus-within:text-blue-400 transition-colors" />
                 </div>
                 <input
                   id="email"
@@ -77,7 +83,7 @@ const Login = () => {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="glass-input block w-full pl-10"
+                  className="glass-input block w-full pl-10 focus:border-blue-500 focus:ring-blue-500"
                   placeholder="teacher@school.com"
                 />
               </div>
@@ -89,7 +95,7 @@ const Login = () => {
               </label>
               <div className="mt-1 relative rounded-md shadow-sm group">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Lock className="h-5 w-5 text-gray-400 group-focus-within:text-white transition-colors" />
+                  <Lock className="h-5 w-5 text-gray-400 group-focus-within:text-blue-400 transition-colors" />
                 </div>
                 <input
                   id="password"
@@ -99,7 +105,7 @@ const Login = () => {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="glass-input block w-full pl-10"
+                  className="glass-input block w-full pl-10 focus:border-blue-500 focus:ring-blue-500"
                   placeholder="••••••••"
                 />
               </div>
@@ -107,14 +113,14 @@ const Login = () => {
 
             <div className="flex items-center justify-between">
               <div className="flex items-center">
-                <input id="remember-me" name="remember-me" type="checkbox" className="h-4 w-4 bg-black/20 border-white/20 rounded focus:ring-white/30 focus:ring-offset-0 focus:ring-1" />
+                <input id="remember-me" name="remember-me" type="checkbox" className="h-4 w-4 bg-black/20 border-white/20 rounded focus:ring-blue-500 focus:ring-offset-0 focus:ring-1 text-blue-500" />
                 <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-300">
                   Remember me
                 </label>
               </div>
 
               <div className="text-sm">
-                <a href="#" className="font-medium text-gray-300 hover:text-white transition-colors">
+                <a href="#" className="font-medium text-blue-400 hover:text-blue-300 transition-colors">
                   Forgot your password?
                 </a>
               </div>
@@ -124,33 +130,18 @@ const Login = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className={`w-full flex justify-center py-3 px-4 rounded-lg text-sm font-medium glass-button-primary ${loading ? 'opacity-70 cursor-not-allowed' : ''}`}
+                className={`w-full flex justify-center py-3 px-4 rounded-lg text-sm font-medium glass-button-primary bg-blue-600 hover:bg-blue-500 text-white border-blue-500/50 shadow-[0_4px_15px_rgba(59,130,246,0.3)] ${loading ? 'opacity-70 cursor-not-allowed' : ''}`}
               >
-                {loading ? 'Signing in...' : 'Sign in'}
+                {loading ? 'Signing in...' : 'Sign in as Teacher'}
               </button>
             </div>
           </form>
 
-          <div className="mt-6">
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-white/10" />
-              </div>
-              <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-transparent text-gray-400 backdrop-blur-md">
-                  New to AttendancePro?
-                </span>
-              </div>
-            </div>
-
-            <div className="mt-6">
-              <Link
-                to="/register"
-                className="w-full flex justify-center py-3 px-4 border border-white/10 rounded-lg text-sm font-medium text-white hover:bg-white/5 transition-colors backdrop-blur-sm"
-              >
-                Create an account
-              </Link>
-            </div>
+          <div className="mt-6 text-center">
+             <Link to="/login" className="text-sm text-gray-400 hover:text-white transition-colors flex justify-center items-center">
+                <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                Back to role selection
+             </Link>
           </div>
         </div>
       </div>
@@ -158,4 +149,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default TeacherLogin;

@@ -8,4 +8,5 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
     List<Student> findBySection(String section);
     boolean existsByRollNumber(String rollNumber);
     boolean existsByEmail(String email);
+    java.util.Optional<Student> findByEmail(String email);
 }

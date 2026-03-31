@@ -4,8 +4,10 @@
 /Users/adarshbaba/Desktop/final-project/attendance-system/backend/src/main/java/com/attendance/backend/dto/AuthResponse.java
 /Users/adarshbaba/Desktop/final-project/attendance-system/backend/src/main/java/com/attendance/backend/service/ClassServiceImpl.java
 /Users/adarshbaba/Desktop/final-project/attendance-system/backend/src/main/java/com/attendance/backend/BackendApplication.java
+/Users/adarshbaba/Desktop/final-project/attendance-system/backend/src/main/java/com/attendance/backend/dto/ChatResponse.java
 /Users/adarshbaba/Desktop/final-project/attendance-system/backend/src/main/java/com/attendance/backend/dto/AuthRequest.java
 /Users/adarshbaba/Desktop/final-project/attendance-system/backend/src/main/java/com/attendance/backend/security/JwtTokenProvider.java
+/Users/adarshbaba/Desktop/final-project/attendance-system/backend/src/main/java/com/attendance/backend/dto/ChatRequest.java
 /Users/adarshbaba/Desktop/final-project/attendance-system/backend/src/main/java/com/attendance/backend/controller/StudentController.java
 /Users/adarshbaba/Desktop/final-project/attendance-system/backend/src/main/java/com/attendance/backend/dto/AttendanceReportDto.java
 /Users/adarshbaba/Desktop/final-project/attendance-system/backend/src/main/java/com/attendance/backend/repository/ClassRepository.java
@@ -35,7 +37,9 @@
 /Users/adarshbaba/Desktop/final-project/attendance-system/backend/src/main/java/com/attendance/backend/dto/RegisterRequest.java
 /Users/adarshbaba/Desktop/final-project/attendance-system/backend/src/main/java/com/attendance/backend/service/AttendanceServiceImpl.java
 /Users/adarshbaba/Desktop/final-project/attendance-system/backend/src/main/java/com/attendance/backend/controller/ReportController.java
+/Users/adarshbaba/Desktop/final-project/attendance-system/backend/src/main/java/com/attendance/backend/service/ChatService.java
 /Users/adarshbaba/Desktop/final-project/attendance-system/backend/src/main/java/com/attendance/backend/model/AttendanceStatus.java
 /Users/adarshbaba/Desktop/final-project/attendance-system/backend/src/main/java/com/attendance/backend/security/JwtTokenFilter.java
+/Users/adarshbaba/Desktop/final-project/attendance-system/backend/src/main/java/com/attendance/backend/controller/ChatController.java
 /Users/adarshbaba/Desktop/final-project/attendance-system/backend/src/main/java/com/attendance/backend/security/JwtAuthenticationEntryPoint.java
 /Users/adarshbaba/Desktop/final-project/attendance-system/backend/src/main/java/com/attendance/backend/service/ClassService.java

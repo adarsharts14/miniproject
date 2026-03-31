@@ -1,8 +1,16 @@
 import { useState, useEffect } from 'react';
 import api from '../services/api';
 import { Calendar, Save, CheckCircle2, XCircle } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
+import StudentAttendance from './student/StudentAttendance';
 
 const Attendance = () => {
+  const { user } = useAuth();
+  
+  if (user?.role === 'STUDENT') {
+    return <StudentAttendance />;
+  }
+
   const [classes, setClasses] = useState([]);
   const [students, setStudents] = useState([]);
   const [selectedClass, setSelectedClass] = useState('');

@@ -30,6 +30,13 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    public StudentDto getStudentByEmail(String email) {
+        Student student = studentRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Student not found with email: " + email));
+        return mapToDto(student);
+    }
+
+    @Override
     public List<StudentDto> getStudentsBySection(String section) {
         return studentRepository.findBySection(section).stream()
                 .map(this::mapToDto)

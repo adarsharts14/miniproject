@@ -2,7 +2,9 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import ProtectedRoute from './components/ProtectedRoute';
 import Layout from './components/Layout';
 import FloatingOrbs from './components/FloatingOrbs';
-import Login from './pages/Login';
+import LoginChoice from './pages/LoginChoice';
+import TeacherLogin from './pages/TeacherLogin';
+import StudentLogin from './pages/StudentLogin';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import Classes from './pages/Classes';
@@ -15,7 +17,9 @@ function App() {
     <Router>
       <FloatingOrbs />
       <Routes>
-        <Route path="/login" element={<Login />} />
+        <Route path="/login" element={<LoginChoice />} />
+        <Route path="/teacher-login" element={<TeacherLogin />} />
+        <Route path="/student-login" element={<StudentLogin />} />
         <Route path="/register" element={<Register />} />
         
         <Route element={<ProtectedRoute><Layout /></ProtectedRoute>}>

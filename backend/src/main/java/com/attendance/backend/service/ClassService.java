@@ -7,6 +7,7 @@ public interface ClassService {
     List<ClassDto> getAllClasses();
     ClassDto getClassById(Long id);
     List<ClassDto> getClassesByTeacher(Long teacherId);
+    List<ClassDto> getClassesBySection(String section);
     ClassDto createClass(ClassDto classDto, String teacherEmail);
     ClassDto updateClass(Long id, ClassDto classDto);
     void deleteClass(Long id);

@@ -6,6 +6,7 @@ import java.util.List;
 public interface StudentService {
     List<StudentDto> getAllStudents();
     StudentDto getStudentById(Long id);
+    StudentDto getStudentByEmail(String email);
     List<StudentDto> getStudentsBySection(String section);
     StudentDto createStudent(StudentDto studentDto);
     StudentDto updateStudent(Long id, StudentDto studentDto);

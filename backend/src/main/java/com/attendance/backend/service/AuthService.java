@@ -7,4 +7,5 @@ import com.attendance.backend.dto.RegisterRequest;
 public interface AuthService {
     AuthResponse login(AuthRequest request);
     AuthResponse register(RegisterRequest request);
+    AuthResponse registerStudent(RegisterRequest request);
 }

@@ -1,8 +1,16 @@
 import { useState, useEffect } from 'react';
 import api from '../services/api';
 import { Plus, Edit2, Trash2 } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
+import StudentClasses from './student/StudentClasses';
 
 const Classes = () => {
+  const { user } = useAuth();
+  
+  if (user?.role === 'STUDENT') {
+    return <StudentClasses />;
+  }
+
   const [classes, setClasses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
